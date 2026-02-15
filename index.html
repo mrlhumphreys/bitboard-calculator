@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Bitboard Calculator</title>
+
+    <style type="text/css" media="screen">
+      body {
+        font-family: "Courier New", Courier, monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .main {
+        width: 960px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .board_dimensions {
+        padding: 1em 0;
+      }
+
+      .board {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .cell {
+        width: 32px;
+        height: 32px;
+        border: solid 1px #000000;
+      }
+
+      .cell:hover {
+        cursor: pointer;
+      }
+
+      [data-value="0"] {
+        background-color: #ffffff;
+      }
+
+      [data-value="1"] {
+        background-color: #000000;
+      }
+    </style>
+
+    <script charset="utf-8">
+      const refreshOutput = function() {
+        const cells = document.querySelectorAll('.cell');
+        let values = Array.from(cells).map(function(cell) {
+          return cell.dataset.value;
+        });
+
+        let outputBinaryElement = document.getElementById('output_binary');
+        let binaryOutput = values.join('');
+        outputBinaryElement.innerHTML = binaryOutput;
+
+        let decimalOutput = BigInt(`0b${binaryOutput}`);
+        let outputDecimalElement = document.getElementById('output_decimal');
+        outputDecimalElement.innerHTML = decimalOutput;
+      };
+
+      const setupCellListeners = function() {
+        let cells = document.querySelectorAll('.cell');
+        cells.forEach(function(cell) {
+          cell.addEventListener('click', function(event) {
+            let value = cell.dataset.value;
+            if (value === '0') {
+              cell.dataset.value = '1';
+            } else {
+              cell.dataset.value = '0';
+            }
+            refreshOutput();
+          });
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', function(event) {
+
+        // Dimension Form
+        let form = document.getElementById('board_dimensions');
+
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          let boardDimensions = Object.fromEntries(new FormData(form));
+
+          let board = document.getElementById('board');
+          board.replaceChildren();
+
+          let rowTemplate = document.querySelector('#row');
+          for (let y = 0; y < boardDimensions.board_height; y++) {
+            let cloneRow = document.importNode(rowTemplate.content, true);
+            let row = cloneRow.querySelector('.row');
+            row.id = `row_${y}`;
+
+            let cellTemplate = document.querySelector('#cell');
+            for (let x = 0; x < boardDimensions.board_width; x++) {
+              let cloneCell = document.importNode(cellTemplate.content, true);
+              let cell = cloneCell.querySelector('.cell');
+              cell.id = `cell_${y}_${x}`;
+              row.appendChild(cloneCell);
+            }
+            board.appendChild(cloneRow);
+          }
+
+          setupCellListeners();
+        });
+
+        // Cell State
+        setupCellListeners();
+
+      });
+    </script>
+  </head>
+  <body>
+    <article class="main">
+      <h1>Bitboard Calculator</h1>
+      <form id="board_dimensions" class="board_dimensions">
+        <label for="board_width">Width:</label>
+        <input type="number" value="8" name="board_width" id="board_width" class="board_dimension" />
+        <label for="board_height">Height:</label>
+        <input type="number" value="8" name="board_height" id="board_height" class="board_dimension" />
+        <input type="submit" value="Resize" name="board_dimension_submit" id="board_dimension_submit" class="board_dimension_submit" />
+      </form>
+
+      <template id="cell">
+        <div id="cell_0_0" class="cell" data-value="0"></div>
+      </template>
+
+      <template id="row">
+        <div class="row"> 
+        </div> 
+      </template>
+
+      <div id="board" class="board">
+        <div id="row_0" class="row"> 
+          <div id="cell_0_0" class="cell" data-value="0"></div>
+          <div id="cell_0_1" class="cell" data-value="0"></div>
+          <div id="cell_0_2" class="cell" data-value="0"></div>
+          <div id="cell_0_3" class="cell" data-value="0"></div>
+          <div id="cell_0_4" class="cell" data-value="0"></div>
+          <div id="cell_0_5" class="cell" data-value="0"></div>
+          <div id="cell_0_6" class="cell" data-value="0"></div>
+          <div id="cell_0_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_1" class="row"> 
+          <div id="cell_1_0" class="cell" data-value="0"></div>
+          <div id="cell_1_1" class="cell" data-value="0"></div>
+          <div id="cell_1_2" class="cell" data-value="0"></div>
+          <div id="cell_1_3" class="cell" data-value="0"></div>
+          <div id="cell_1_4" class="cell" data-value="0"></div>
+          <div id="cell_1_5" class="cell" data-value="0"></div>
+          <div id="cell_1_6" class="cell" data-value="0"></div>
+          <div id="cell_1_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_2" class="row"> 
+          <div id="cell_2_0" class="cell" data-value="0"></div>
+          <div id="cell_2_1" class="cell" data-value="0"></div>
+          <div id="cell_2_2" class="cell" data-value="0"></div>
+          <div id="cell_2_3" class="cell" data-value="0"></div>
+          <div id="cell_2_4" class="cell" data-value="0"></div>
+          <div id="cell_2_5" class="cell" data-value="0"></div>
+          <div id="cell_2_6" class="cell" data-value="0"></div>
+          <div id="cell_2_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_3" class="row"> 
+          <div id="cell_3_0" class="cell" data-value="0"></div>
+          <div id="cell_3_1" class="cell" data-value="0"></div>
+          <div id="cell_3_2" class="cell" data-value="0"></div>
+          <div id="cell_3_3" class="cell" data-value="0"></div>
+          <div id="cell_3_4" class="cell" data-value="0"></div>
+          <div id="cell_3_5" class="cell" data-value="0"></div>
+          <div id="cell_3_6" class="cell" data-value="0"></div>
+          <div id="cell_3_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_4" class="row"> 
+          <div id="cell_4_0" class="cell" data-value="0"></div>
+          <div id="cell_4_1" class="cell" data-value="0"></div>
+          <div id="cell_4_2" class="cell" data-value="0"></div>
+          <div id="cell_4_3" class="cell" data-value="0"></div>
+          <div id="cell_4_4" class="cell" data-value="0"></div>
+          <div id="cell_4_5" class="cell" data-value="0"></div>
+          <div id="cell_4_6" class="cell" data-value="0"></div>
+          <div id="cell_4_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_5" class="row"> 
+          <div id="cell_5_0" class="cell" data-value="0"></div>
+          <div id="cell_5_1" class="cell" data-value="0"></div>
+          <div id="cell_5_2" class="cell" data-value="0"></div>
+          <div id="cell_5_3" class="cell" data-value="0"></div>
+          <div id="cell_5_4" class="cell" data-value="0"></div>
+          <div id="cell_5_5" class="cell" data-value="0"></div>
+          <div id="cell_5_6" class="cell" data-value="0"></div>
+          <div id="cell_5_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_6" class="row"> 
+          <div id="cell_6_0" class="cell" data-value="0"></div>
+          <div id="cell_6_1" class="cell" data-value="0"></div>
+          <div id="cell_6_2" class="cell" data-value="0"></div>
+          <div id="cell_6_3" class="cell" data-value="0"></div>
+          <div id="cell_6_4" class="cell" data-value="0"></div>
+          <div id="cell_6_5" class="cell" data-value="0"></div>
+          <div id="cell_6_6" class="cell" data-value="0"></div>
+          <div id="cell_6_7" class="cell" data-value="0"></div>
+        </div> 
+        <div id="row_7" class="row"> 
+          <div id="cell_7_0" class="cell" data-value="0"></div>
+          <div id="cell_7_1" class="cell" data-value="0"></div>
+          <div id="cell_7_2" class="cell" data-value="0"></div>
+          <div id="cell_7_3" class="cell" data-value="0"></div>
+          <div id="cell_7_4" class="cell" data-value="0"></div>
+          <div id="cell_7_5" class="cell" data-value="0"></div>
+          <div id="cell_7_6" class="cell" data-value="0"></div>
+          <div id="cell_7_7" class="cell" data-value="0"></div>
+        </div> 
+      </div>
+
+      <dl>
+        <dt>Binary:</dt>
+        <dd id="output_binary" class="output">0000000000000000000000000000000000000000000000000000000000000000</dd>
+        <dt>Decimal</dt>
+        <dd id="output_decimal" class="output">0</dd>
+      </dl>
+    </article>
+  </body>
+</html>
