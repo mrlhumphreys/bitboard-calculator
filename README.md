@@ -18,7 +18,10 @@ This tool for converting a visual representation of a bitboard into binary.
 
 # TODO
 
-  * Add/Remove Row and Column buttons.
-  * Add ability to convert decimal number to board state.
-
+  * Extract javascript into separate file
+  * Extract stylesheets into separate file
+  * Add "Add Row/Column" buttons
+  * Format Binary in bytes with hexadecimal
+  * Add second board
+  * Add operations between two boards
 

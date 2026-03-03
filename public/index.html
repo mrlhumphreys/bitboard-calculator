@@ -81,6 +81,10 @@
       .cell[data-value="1"]:hover {
         background-color: #808080;
       }
+
+      .decimal_value {
+        width: 300px;
+      }
     </style>
 
     <script charset="utf-8">
@@ -90,13 +94,16 @@
           return cell.dataset.value;
         });
 
-        let outputBinaryElement = document.getElementById('output_binary');
-        let binaryOutput = values.join('');
-        outputBinaryElement.innerHTML = binaryOutput;
+        let numberOfCells = cells.length;
 
-        let decimalOutput = BigInt(`0b${binaryOutput}`);
-        let outputDecimalElement = document.getElementById('output_decimal');
-        outputDecimalElement.innerHTML = decimalOutput;
+        let outputBinaryElement = document.getElementById('output_binary');
+        let binaryString = values.join('');
+        let paddedBinaryString = binaryString.padStart(numberOfCells,'0');
+        outputBinaryElement.innerHTML = paddedBinaryString;
+
+        let decimalOutput = BigInt(`0b${binaryString}`);
+        let decimalValueElement = document.getElementById('decimal_value');
+        decimalValueElement.value = decimalOutput;
       };
 
       const setupCellListeners = function() {
@@ -126,6 +133,7 @@
             };
             updateBoardDimensions(newBoardDimensions);
             updateBoardDimensionsForm(newBoardDimensions);
+            refreshOutput();
           });
         });
 
@@ -140,6 +148,7 @@
             };
             updateBoardDimensions(newBoardDimensions);
             updateBoardDimensionsForm(newBoardDimensions);
+            refreshOutput();
           });
         });
       };
@@ -209,21 +218,23 @@
       };
 
       document.addEventListener('DOMContentLoaded', function(event) {
-        // Dimension Form
-        let form = document.getElementById('board_dimensions');
+        // Dimensions Form
+        let dimensionsForm = document.getElementById('board_dimensions');
 
-        form.addEventListener('submit', function(event) {
+        dimensionsForm.addEventListener('submit', function(event) {
           event.preventDefault();
-          let boardDimensions = getBoardDimenstions(form);
+          let boardDimensions = getBoardDimensions(dimensionsForm);
           updateBoardDimensions(boardDimensions);
+          refreshOutput();
         });
 
         let boardWidthInput = document.getElementById('board_width');
         boardWidthInput.addEventListener('change', function(event) {
           let boardWidth = parseInt(event.target.value);
           if (!Number.isNaN(boardWidth) && boardWidth > 0) {
-            let boardDimensions = Object.fromEntries(new FormData(form));
+            let boardDimensions = getBoardDimensions(dimensionsForm);
             updateBoardDimensions(boardDimensions);
+            refreshOutput();
           }
         });
 
@@ -231,8 +242,31 @@
         boardHeightInput.addEventListener('change', function(event) {
           let boardHeight = parseInt(event.target.value);
           if (!Number.isNaN(boardHeight) && boardHeight > 0) {
-            let boardDimensions = Object.fromEntries(new FormData(form));
+            let boardDimensions = getBoardDimensions(dimensionsForm);
             updateBoardDimensions(boardDimensions);
+            refreshOutput();
+          }
+        });
+
+        // Decimal Form
+        let decimalForm = document.getElementById('decimal');
+
+        decimalForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          let formData = Object.fromEntries(new FormData(decimalForm));
+          let value = parseInt(formData.decimal_value);
+          if (!Number.isNaN(value)) {
+            let cells = document.querySelectorAll('.cell');
+            let numberOfCells = cells.length;
+            let binaryString = value.toString(2);
+            let paddedBinaryString = binaryString.padStart(numberOfCells,'0');
+            cells.forEach(function(cell, index) {
+              let c = paddedBinaryString.charAt(index);
+              cell.dataset.value = c;
+            });
+
+            let outputBinaryElement = document.getElementById('output_binary');
+            outputBinaryElement.innerHTML = paddedBinaryString;
           }
         });
 
@@ -408,12 +442,13 @@
         </div>
       </div>
 
-      <dl>
-        <dt>Binary:</dt>
-        <dd id="output_binary" class="output">0000000000000000000000000000000000000000000000000000000000000000</dd>
-        <dt>Decimal</dt>
-        <dd id="output_decimal" class="output">0</dd>
-      </dl>
+      <h2>Binary</h2>
+      <p id="output_binary" class="output">0000000000000000000000000000000000000000000000000000000000000000</p>
+      <h2>Decimal</h2>
+      <form id="decimal" class="decimal">
+        <label for="decimal_value">Value:</label>
+        <input type="number" value="0" min="0" name="decimal_value" id="decimal_value" class="decimal_value" />
+        <input type="submit" value="Set Board" name="decimal_submit" id="decimal_submit" class="decimal_submit" />
     </article>
   </body>
 </html>
