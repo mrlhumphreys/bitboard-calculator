@@ -24,13 +24,10 @@ const updateBoardDimensions = function(bitboardId, boardDimensions) {
   for (let y = 0; y < boardDimensions.board_height; y++) {
     let cloneRow = document.importNode(rowTemplate.content, true);
     let row = cloneRow.querySelector('.row');
-    row.id = `row_${y}`;
 
     let cellTemplate = document.querySelector('#cell');
     for (let x = 0; x < boardDimensions.board_width; x++) {
       let cloneCell = document.importNode(cellTemplate.content, true);
-      let cell = cloneCell.querySelector('.cell');
-      cell.id = `cell_${y}_${x}`;
       row.appendChild(cloneCell);
     }
 
