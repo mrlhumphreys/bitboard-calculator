@@ -1,0 +1,79 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  width: 960px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+}
+
+.board_dimensions {
+  padding: 1em 0;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 32px;
+  height: 32px;
+  border: solid 1px #000000;
+}
+
+.cell:hover {
+  cursor: pointer;
+}
+
+.column_action, .row_action {
+  width: 32px;
+  height: 32px;
+  border: solid 1px transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove_column, .remove_row {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.remove_column:hover, .remove_row:hover {
+  text-decoration: underline;
+}
+
+.cell[data-value="0"] {
+  background-color: #ffffff;
+}
+
+.cell[data-value="0"]:hover {
+  background-color: #d0d0d0;
+}
+
+.cell[data-value="1"] {
+  background-color: #000000;
+}
+
+.cell[data-value="1"]:hover {
+  background-color: #808080;
+}
+
+.decimal_value {
+  width: 300px;
+}
