@@ -13,6 +13,20 @@ body {
   flex-direction: column;
 }
 
+.bitboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 h1 {
   text-align: center;
 }

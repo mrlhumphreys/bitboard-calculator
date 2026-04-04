@@ -14,13 +14,10 @@ This tool for converting a visual representation of a bitboard into binary.
 ## Dev Instructions
 
  * Start the server by running `./scripts/start.sh`. (Requires ruby installed)
- * Static assets (index.html) is in the `./public` directory.
+ * Static assets are in the `./public` directory.
 
 # TODO
 
-  * Extract javascript into separate file
-  * Extract stylesheets into separate file
-  * Add "Add Row/Column" buttons
   * Format Binary in bytes with hexadecimal
   * Add second board
   * Add operations between two boards
