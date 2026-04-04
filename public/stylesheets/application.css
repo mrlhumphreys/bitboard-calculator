@@ -40,24 +40,6 @@ h1 {
   cursor: pointer;
 }
 
-.column_action, .row_action {
-  width: 32px;
-  height: 32px;
-  border: solid 1px transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.remove_column, .remove_row {
-  font-size: 24px;
-  text-decoration: none;
-}
-
-.remove_column:hover, .remove_row:hover {
-  text-decoration: underline;
-}
-
 .cell[data-value="0"] {
   background-color: #ffffff;
 }
