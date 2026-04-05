@@ -162,13 +162,13 @@ document.addEventListener('DOMContentLoaded', function(_event) {
     let result = undefined;
     switch (operator) {
       case 'and':
-        result = valueA & valueB;
+        result = BigInt(valueA) & BigInt(valueB);
         break;
       case 'or':
-        result = valueA | valueB;
+        result = BigInt(valueA) | BigInt(valueB);
         break;
       case 'xor':
-        result = valueA ^ valueB;
+        result = BigInt(valueA) ^ BigInt(valueB);
         break;
       default:
         break;
