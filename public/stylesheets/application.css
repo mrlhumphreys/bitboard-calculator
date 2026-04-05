@@ -13,6 +13,12 @@ body {
   flex-direction: column;
 }
 
+.bitboards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .bitboard {
   display: flex;
   align-items: center;
@@ -68,6 +74,11 @@ h1 {
 
 .cell[data-value="1"]:hover {
   background-color: #808080;
+}
+
+.decimal {
+  display: flex;
+  flex-direction: column;
 }
 
 .decimal_value {

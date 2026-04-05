@@ -5,15 +5,20 @@ const refreshOutput = function(bitboardId) {
   });
 
   let numberOfCells = cells.length;
-
-  let outputBinaryElement = document.querySelector(`#${bitboardId} .output_binary`);
   let binaryString = values.join('');
   let paddedBinaryString = binaryString.padStart(numberOfCells,'0');
-  outputBinaryElement.innerHTML = paddedBinaryString;
+
+  updateBinaryElement(bitboardId, paddedBinaryString);
 
   let decimalOutput = BigInt(`0b${binaryString}`);
   let decimalValueElement = document.querySelector(`#${bitboardId} .decimal_value`);
   decimalValueElement.value = decimalOutput;
+};
+
+const updateBinaryElement = function(bitboardId, paddedBinaryString ) {
+  let splitString = paddedBinaryString.match(/.{1,8}/g);
+  let outputBinaryElement = document.querySelector(`#${bitboardId} .output_binary`);
+  outputBinaryElement.innerHTML = splitString.map(function(e) { return `<li>${e}</li>`; }).join('');
 };
 
 const updateBoardDimensions = function(bitboardId, boardDimensions) {
@@ -72,8 +77,7 @@ const setupDecimalFormListener = function(bitboardId) {
         cell.dataset.value = c;
       });
 
-      let outputBinaryElement = document.querySelector(`#${bitboardId} .output_binary`);
-      outputBinaryElement.innerHTML = paddedBinaryString;
+      updateBinaryElement(bitboardId, paddedBinaryString);
     }
   });
 };
@@ -88,6 +92,9 @@ document.addEventListener('DOMContentLoaded', function(_event) {
     // update bitboards a, b, c
     updateBoardDimensions('bitboard_a', boardDimensions);
     refreshOutput('bitboard_a');
+
+    updateBoardDimensions('bitboard_b', boardDimensions);
+    refreshOutput('bitboard_b');
   });
 
   let boardWidthInput = document.getElementById('board_width');
@@ -98,6 +105,9 @@ document.addEventListener('DOMContentLoaded', function(_event) {
       // update bitboards a, b, c
       updateBoardDimensions('bitboard_a', boardDimensions);
       refreshOutput('bitboard_a');
+
+      updateBoardDimensions('bitboard_b', boardDimensions);
+      refreshOutput('bitboard_b');
     }
   });
 
@@ -109,11 +119,16 @@ document.addEventListener('DOMContentLoaded', function(_event) {
       // update bitboards a, b, c
       updateBoardDimensions('bitboard_a', boardDimensions);
       refreshOutput('bitboard_a');
+
+      updateBoardDimensions('bitboard_b', boardDimensions);
+      refreshOutput('bitboard_b');
     }
   });
 
   // Decimal Form
   setupDecimalFormListener('bitboard_a');
+  setupDecimalFormListener('bitboard_b');
   // Cell Listeners
   setupCellListeners('bitboard_a');
+  setupCellListeners('bitboard_b');
 });
