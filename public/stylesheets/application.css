@@ -41,6 +41,10 @@ h1 {
   padding: 1em 0;
 }
 
+.calculator {
+  padding: 1em 0;
+}
+
 .board {
   display: flex;
   flex-direction: column;

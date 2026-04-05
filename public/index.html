@@ -10,12 +10,23 @@
   <body>
     <article class="main">
       <h1>Bitboard Calculator</h1>
+
       <form id="board_dimensions" class="board_dimensions">
         <label for="board_width">Width:</label>
         <input type="number" value="8" min="1" max="20" name="board_width" id="board_width" class="board_dimension" />
         <label for="board_height">Height:</label>
         <input type="number" value="8" min="1" max="20" name="board_height" id="board_height" class="board_dimension" />
         <input type="submit" value="Resize" name="board_dimension_submit" id="board_dimension_submit" class="board_dimension_submit" />
+      </form>
+
+      <form id="calculator" class="calculator">
+        <label for="operator">Operator:</label>
+        <select name="operator" id="operator" class="operator">
+          <option value="and">AND</option>
+          <option value="or">OR</option>
+          <option value="xor">XOR</option>
+        </select>
+        <input type="submit" value="Calculate" name="calculator_submit" id="calculator_submit" class="calculator_submit"/>
       </form>
 
       <template id="cell">
@@ -28,6 +39,7 @@
       </template>
 
       <div id="bitboards" class="bitboards">
+
         <div id="bitboard_a" class="bitboard">
           <div class="board">
             <div class="row">
@@ -131,6 +143,7 @@
             </form>
           </div>
         </div>
+
         <div id="bitboard_b" class="bitboard">
           <div class="board">
             <div class="row">
@@ -234,6 +247,110 @@
             </form>
           </div>
         </div>
+
+        <div id="bitboard_c" class="bitboard">
+          <div class="board">
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+            <div class="row">
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+              <div class="cell" data-value="0"></div>
+            </div>
+          </div>
+          <div class="bit">
+            <h2>Binary</h2>
+            <ul class="output_binary">
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+              <li>00000000</li>
+            </ul>
+            <h2>Decimal</h2>
+            <form class="decimal">
+              <label for="decimal_value">Value:</label>
+              <input type="number" disabled="disabled" value="0" min="0" name="decimal_value" class="decimal_value" />
+              <input type="submit" disabled="disabled" value="Set Board" name="decimal_submit" class="decimal_submit" />
+            </form>
+          </div>
+
       </div>
     </article>
   </body>

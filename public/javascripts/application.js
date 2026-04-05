@@ -1,16 +1,9 @@
 const refreshOutput = function(bitboardId) {
-  const cells = document.querySelectorAll(`#${bitboardId} .cell`);
-  let values = Array.from(cells).map(function(cell) {
-    return cell.dataset.value;
-  });
-
-  let numberOfCells = cells.length;
-  let binaryString = values.join('');
-  let paddedBinaryString = binaryString.padStart(numberOfCells,'0');
+  let paddedBinaryString = getBitboardPaddedBinary(bitboardId);
 
   updateBinaryElement(bitboardId, paddedBinaryString);
 
-  let decimalOutput = BigInt(`0b${binaryString}`);
+  let decimalOutput = BigInt(`0b${paddedBinaryString}`);
   let decimalValueElement = document.querySelector(`#${bitboardId} .decimal_value`);
   decimalValueElement.value = decimalOutput;
 };
@@ -38,12 +31,37 @@ const updateBoardDimensions = function(bitboardId, boardDimensions) {
 
     board.appendChild(cloneRow);
   }
-  setupCellListeners(bitboardId);
+};
+
+const updateCells = function(bitboardId, paddedBinaryString) {
+  let cells = document.querySelectorAll(`#${bitboardId} .cell`);
+  cells.forEach(function(cell, index) {
+    let c = paddedBinaryString.charAt(index);
+    cell.dataset.value = c;
+  });
 };
 
 const getBoardDimensions = function(form) {
   return Object.fromEntries(new FormData(form));
 };
+
+const numberToPaddedBinary = function(bitboardId, number) {
+  let cells = document.querySelectorAll(`#${bitboardId} .cell`);
+  let numberOfCells = cells.length;
+  let binaryString = number.toString(2);
+  return binaryString.padStart(numberOfCells,'0');
+}
+
+const getBitboardPaddedBinary = function(bitboardId) {
+  const cells = document.querySelectorAll(`#${bitboardId} .cell`);
+  let values = Array.from(cells).map(function(cell) {
+    return cell.dataset.value;
+  });
+
+  let numberOfCells = cells.length;
+  let binaryString = values.join('');
+  return binaryString.padStart(numberOfCells,'0');
+}
 
 const setupCellListeners = function(bitboardId) {
   let cells = document.querySelectorAll(`#${bitboardId} .cell`);
@@ -68,15 +86,9 @@ const setupDecimalFormListener = function(bitboardId) {
     let formData = Object.fromEntries(new FormData(decimalForm));
     let value = parseInt(formData.decimal_value);
     if (!Number.isNaN(value)) {
-      let cells = document.querySelectorAll(`#${bitboardId} .cell`);
-      let numberOfCells = cells.length;
-      let binaryString = value.toString(2);
-      let paddedBinaryString = binaryString.padStart(numberOfCells,'0');
-      cells.forEach(function(cell, index) {
-        let c = paddedBinaryString.charAt(index);
-        cell.dataset.value = c;
-      });
+      let paddedBinaryString = numberToPaddedBinary(bitboardId, value);
 
+      updateCells(bitboardId, paddedBinaryString);
       updateBinaryElement(bitboardId, paddedBinaryString);
     }
   });
@@ -91,10 +103,15 @@ document.addEventListener('DOMContentLoaded', function(_event) {
     let boardDimensions = getBoardDimensions(dimensionsForm);
     // update bitboards a, b, c
     updateBoardDimensions('bitboard_a', boardDimensions);
+    setupCellListeners('bitboard_a');
     refreshOutput('bitboard_a');
 
     updateBoardDimensions('bitboard_b', boardDimensions);
+    setupCellListeners('bitboard_b');
     refreshOutput('bitboard_b');
+
+    updateBoardDimensions('bitboard_c', boardDimensions);
+    refreshOutput('bitboard_c');
   });
 
   let boardWidthInput = document.getElementById('board_width');
@@ -104,10 +121,15 @@ document.addEventListener('DOMContentLoaded', function(_event) {
       let boardDimensions = getBoardDimensions(dimensionsForm);
       // update bitboards a, b, c
       updateBoardDimensions('bitboard_a', boardDimensions);
+      setupCellListeners('bitboard_a');
       refreshOutput('bitboard_a');
 
       updateBoardDimensions('bitboard_b', boardDimensions);
+      setupCellListeners('bitboard_b');
       refreshOutput('bitboard_b');
+
+      updateBoardDimensions('bitboard_c', boardDimensions);
+      refreshOutput('bitboard_c');
     }
   });
 
@@ -118,11 +140,50 @@ document.addEventListener('DOMContentLoaded', function(_event) {
       let boardDimensions = getBoardDimensions(dimensionsForm);
       // update bitboards a, b, c
       updateBoardDimensions('bitboard_a', boardDimensions);
+      setupCellListeners('bitboard_a');
       refreshOutput('bitboard_a');
 
       updateBoardDimensions('bitboard_b', boardDimensions);
+      setupCellListeners('bitboard_b');
       refreshOutput('bitboard_b');
+
+      updateBoardDimensions('bitboard_c', boardDimensions);
+      refreshOutput('bitboard_c');
     }
+  });
+
+  let calculatorForm = document.getElementById('calculator');
+  calculatorForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const valueA = document.querySelector('#bitboard_a .decimal_value').value;
+    const valueB = document.querySelector('#bitboard_b .decimal_value').value;
+    const operator = document.querySelector('#calculator .operator').value;
+
+    let result = undefined;
+    switch (operator) {
+      case 'and':
+        result = valueA & valueB;
+        break;
+      case 'or':
+        result = valueA | valueB;
+        break;
+      case 'xor':
+        result = valueA ^ valueB;
+        break;
+      default:
+        break;
+    }
+    let paddedBinaryString = numberToPaddedBinary('bitboard_c', result);
+
+    // update cells
+    updateCells('bitboard_c', paddedBinaryString);
+
+    // update binary element
+    updateBinaryElement('bitboard_c', paddedBinaryString);
+
+    // update decimal
+    let resultDecimal = document.querySelector('#bitboard_c .decimal_value');
+    resultDecimal.value = result;
   });
 
   // Decimal Form
