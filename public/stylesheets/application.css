@@ -13,6 +13,11 @@ body {
   flex-direction: column;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 .bitboards {
   display: flex;
   flex-direction: row;

@@ -112,6 +112,13 @@ document.addEventListener('DOMContentLoaded', function(_event) {
 
     updateBoardDimensions('bitboard_c', boardDimensions);
     refreshOutput('bitboard_c');
+
+    updateBoardDimensions('bitboard_d', boardDimensions);
+    setupCellListeners('bitboard_d');
+    refreshOutput('bitboard_d');
+
+    updateBoardDimensions('bitboard_e', boardDimensions);
+    refreshOutput('bitboard_e');
   });
 
   let boardWidthInput = document.getElementById('board_width');
@@ -130,6 +137,13 @@ document.addEventListener('DOMContentLoaded', function(_event) {
 
       updateBoardDimensions('bitboard_c', boardDimensions);
       refreshOutput('bitboard_c');
+
+      updateBoardDimensions('bitboard_d', boardDimensions);
+      setupCellListeners('bitboard_d');
+      refreshOutput('bitboard_d');
+
+      updateBoardDimensions('bitboard_e', boardDimensions);
+      refreshOutput('bitboard_e');
     }
   });
 
@@ -149,15 +163,22 @@ document.addEventListener('DOMContentLoaded', function(_event) {
 
       updateBoardDimensions('bitboard_c', boardDimensions);
       refreshOutput('bitboard_c');
+
+      updateBoardDimensions('bitboard_d', boardDimensions);
+      setupCellListeners('bitboard_d');
+      refreshOutput('bitboard_d');
+
+      updateBoardDimensions('bitboard_e', boardDimensions);
+      refreshOutput('bitboard_e');
     }
   });
 
-  let calculatorForm = document.getElementById('calculator');
-  calculatorForm.addEventListener('submit', function(event) {
+  let twoBoardCalculatorForm = document.getElementById('two_board_calculator');
+  twoBoardCalculatorForm.addEventListener('submit', function(event) {
     event.preventDefault();
     const valueA = document.querySelector('#bitboard_a .decimal_value').value;
     const valueB = document.querySelector('#bitboard_b .decimal_value').value;
-    const operator = document.querySelector('#calculator .operator').value;
+    const operator = document.querySelector('#two_board_calculator .operator').value;
 
     let result = undefined;
     switch (operator) {
@@ -186,10 +207,44 @@ document.addEventListener('DOMContentLoaded', function(_event) {
     resultDecimal.value = result;
   });
 
+  let oneBoardCalculatorForm = document.getElementById('one_board_calculator');
+  oneBoardCalculatorForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const valueD = document.querySelector('#bitboard_d .decimal_value').value;
+    const operator = document.querySelector('#one_board_calculator .operator').value;
+    const number = BigInt(document.querySelector('#one_board_calculator .number').value);
+
+    let result = undefined;
+    switch (operator) {
+      case 'lshift':
+        result = BigInt(valueD) << number 
+        break;
+      case 'rshift':
+        result = BigInt(valueD) >> number
+        break;
+      default:
+        break;
+    }
+
+    let paddedBinaryString = numberToPaddedBinary('bitboard_e', result);
+
+    // update cells
+    updateCells('bitboard_e', paddedBinaryString);
+
+    // update binary element
+    updateBinaryElement('bitboard_e', paddedBinaryString);
+
+    // update decimal
+    let resultDecimal = document.querySelector('#bitboard_e .decimal_value');
+    resultDecimal.value = result;
+  });
+
   // Decimal Form
   setupDecimalFormListener('bitboard_a');
   setupDecimalFormListener('bitboard_b');
+  setupDecimalFormListener('bitboard_d');
   // Cell Listeners
   setupCellListeners('bitboard_a');
   setupCellListeners('bitboard_b');
+  setupCellListeners('bitboard_d');
 });
